@@ -4,17 +4,18 @@ return {
 		event = { "BufWritePre", "BufNewFile" },
 		cmd = { "ConformInfo" },
 		opts = {
-			-- Globalne ustawienia dla formatterów
 			formatters = {
-				["clang-format"] = {
+				clang_format_system = {
+					command = "/usr/bin/clang-format",
 					args = {
 						"--style=" .. vim.json.encode({
 							BasedOnStyle = "LLVM",
 							IndentWidth = 4,
+							AccessModifierOffset = -4,
+							IndentAccessModifiers = false,
 							TabWidth = 4,
 							UseTab = "Never",
 							ColumnLimit = 120,
-
 							PointerAlignment = "Left",
 							BreakBeforeBraces = "Custom",
 							SortIncludes = false,
@@ -23,8 +24,9 @@ return {
 							SeparateDefinitionBlocks = "Always",
 							RemoveBracesLLVM = true,
 							RemoveEmptyLinesInUnwrappedLines = true,
-							AllowShortFunctionsOnASingleLine = "None",
-
+							AllowShortFunctionsOnASingleLine = "All",
+							BinPackArguments = false,
+							BinPackParameters = false,
 							BraceWrapping = {
 								AfterClass = true,
 								AfterFunction = true,
@@ -40,8 +42,6 @@ return {
 					},
 				},
 			},
-
-			-- Definicja, który formatter do jakiego pliku
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { "prettier" },
@@ -57,18 +57,14 @@ return {
 				markdown = { "prettier" },
 				python = { "black" },
 				rust = { "rustfmt" },
-				c = { "clang-format" },
-				cpp = { "clang-format" },
+				c = { "clang_format_system" },
+				cpp = { "clang_format_system" },
 			},
-
-			-- Włączenie formatowania przy zapisie
 			format_on_save = {
 				timeout_ms = 500,
 				lsp_fallback = true,
 			},
 		},
-
-		-- Funkcja 'init' na właściwym miejscu
 		init = function()
 			vim.keymap.set({ "n", "v" }, "<leader>f", function()
 				require("conform").format({ async = true, lsp_fallback = true })
