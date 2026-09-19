@@ -37,7 +37,7 @@ return {
 		event = "InsertEnter",
 		config = function()
 			require("copilot").setup({
-				suggestion = { enabled = true, auto_trigger = true },
+				suggestion = { enabled = true, auto_trigger = false },
 				panel = { enabled = false },
 				filetypes = {
 					["*"] = true,

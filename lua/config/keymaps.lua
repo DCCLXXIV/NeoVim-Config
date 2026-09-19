@@ -14,6 +14,10 @@ vim.keymap.set(
 	{ noremap = true, silent = true, desc = "Przesuń zaznaczenie w górę" }
 )
 
+-- Skrót vsplit oraz split
+vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Otwórz pionowe okno (vsplit)" })
+vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Otwórz poziome okno (split)" })
+
 -- 🎮 Skróty dla diagnostyki LSP (pozostawione globalnie dla wygody)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Idź do poprzedniego błędu" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Idź do następnego błędu" })
