@@ -109,6 +109,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"c",
+				"cpp",
 				"lua",
 				"vim",
 				"vimdoc",
@@ -119,6 +120,8 @@ return {
 				"javascript",
 				"typescript",
 				"java",
+				"json",
+				"yaml",
 				"rust",
 			},
 			highlight = { enable = true },

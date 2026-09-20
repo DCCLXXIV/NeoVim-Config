@@ -4,44 +4,40 @@ return {
 		event = { "BufWritePre", "BufNewFile" },
 		cmd = { "ConformInfo" },
 		opts = {
-			-- Globalne ustawienia dla formatterów
 			formatters = {
 				["clang-format"] = {
 					args = {
-						"--style=" .. vim.json.encode({
+						"--style=file",
+						"--fallback-style=" .. vim.json.encode({
 							BasedOnStyle = "LLVM",
 							IndentWidth = 4,
 							TabWidth = 4,
 							UseTab = "Never",
 							ColumnLimit = 120,
-
 							PointerAlignment = "Left",
-							BreakBeforeBraces = "Custom",
 							SortIncludes = false,
 							IndentCaseLabels = true,
 							NamespaceIndentation = "All",
 							SeparateDefinitionBlocks = "Always",
-							RemoveBracesLLVM = true,
-							RemoveEmptyLinesInUnwrappedLines = true,
+							IndentAccessModifiers = false,
+							AccessModifierOffset = -4,
 							AllowShortFunctionsOnASingleLine = "None",
-
+							BreakBeforeBraces = "Custom",
 							BraceWrapping = {
 								AfterClass = true,
 								AfterFunction = true,
 								AfterNamespace = true,
 								AfterStruct = false,
 								AfterEnum = false,
-								AfterControlStatement = true,
+								AfterControlStatement = "Always",
+								AfterCaseLabel = true,
 								BeforeCatch = true,
 								BeforeElse = true,
-								AfterCaseLabel = true,
 							},
 						}),
 					},
 				},
 			},
-
-			-- Definicja, który formatter do jakiego pliku
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { "prettier" },
@@ -59,20 +55,19 @@ return {
 				rust = { "rustfmt" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
+				java = { "google-java-format" },
 			},
 
-			-- Włączenie formatowania przy zapisie
 			format_on_save = {
-				timeout_ms = 500,
+				timeout_ms = 1000,
 				lsp_fallback = true,
 			},
 		},
 
-		-- Funkcja 'init' na właściwym miejscu
 		init = function()
 			vim.keymap.set({ "n", "v" }, "<leader>f", function()
 				require("conform").format({ async = true, lsp_fallback = true })
-			end, { desc = "Formatuj plik lub zaznaczenie" })
+			end, { desc = "Format file or selection" })
 		end,
 	},
 }
